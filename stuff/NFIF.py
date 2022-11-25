@@ -106,7 +106,7 @@ class NFIF(BaseFunctionHandler):
         return self.__max_value_of_remainder_estimate
 
     def get_min_remainder_estimate(self):
-        return self.__remainder_estimate
+        return self.__min_value_of_remainder_estimate
 
     def get_remainder_estimate(self):
         return self.__remainder_estimate

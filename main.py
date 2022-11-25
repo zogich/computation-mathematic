@@ -1,5 +1,5 @@
 from laboratory_tasks.first_lab import execute_first_lab
-from laboratory_tasks.second_lab import execute_second_lab
+from laboratory_tasks.second_lab_part_two import execute_second_lab_part_two
+from laboratory_tasks.third_lab import execute_third_lab
 
-execute_second_lab()
-
+execute_third_lab()
