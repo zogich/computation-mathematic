@@ -26,7 +26,7 @@ class NumberIntegration(BaseFunctionHandler):
     def _execute_method(self):
         pass
 
-    def _get_calculated_exact_integral(self):
+    def get_calculated_exact_integral(self):
         return self._calculated_integral_of_the_function
 
     def change_values(self, n: int, begin_interval: float, end_interval: float, function: add):
@@ -35,6 +35,10 @@ class NumberIntegration(BaseFunctionHandler):
         self._exact_integral_of_the_function = integrate(self._function, x)
         self._calculated_integral_of_the_function = self._exact_integral_of_the_function.subs(x, self._interval[
             1]) - self._exact_integral_of_the_function.subs(x, self._interval[0])
+        self._execute_method()
+        self._calculate_absolute_error()
+        self._calculate_relative_error()
+        self._calculate_remainder_term()
 
     def get_exact_integral(self):
         return self._exact_integral_of_the_function
