@@ -1,22 +1,28 @@
 from sympy import log
+from sympy.core import add
+from sympy import Symbol
 
 
-class BaseFunctionHandler():
+class BaseFunctionHandler:
     _interval = []
     _n = 0
     _nodes = []
     _values_of_function = []
     _step = 0
+    _function = 0
 
-    def __init__(self, n: int, begin_interval: float, end_interval: float):
+    def __init__(self, n: int, begin_interval: float, end_interval: float, function: add):
         if not isinstance(n, int) or not isinstance(begin_interval, float) or not isinstance(end_interval, float):
             raise TypeError
 
+        x = Symbol('x')
         self._interval = []
         self._n = 0
         self._nodes = []
-
+        self._function = 0
         self._n = n
+
+        self._function = function
 
         self._interval.append(begin_interval)
         self._interval.append(end_interval)
@@ -28,4 +34,4 @@ class BaseFunctionHandler():
         self._nodes.append(end_interval)
 
         for value in self._nodes:
-            self._values_of_function.append(value**2 + log(value))
+            self._values_of_function.append(self._function.subs(x, value))
