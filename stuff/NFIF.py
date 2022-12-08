@@ -1,5 +1,6 @@
 from stuff.BaseFunctionHandler import BaseFunctionHandler
 from sympy import Symbol, log, factorial, expand, diff
+from sympy.core import add
 
 
 class NFIF(BaseFunctionHandler):
@@ -16,8 +17,8 @@ class NFIF(BaseFunctionHandler):
     def get_n(self):
         return self._n
 
-    def __init__(self, n: int, begin_interval: float, end_interval: float):
-        super().__init__(n, begin_interval, end_interval)
+    def __init__(self, n: int, begin_interval: float, end_interval: float, function: add):
+        super().__init__(n, begin_interval, end_interval, function)
         self.__calculate_table_of_finite_differences()
         self.__calculate_newton_formula()
         self.__calculate_polynom()
@@ -41,10 +42,11 @@ class NFIF(BaseFunctionHandler):
         return self.__table_of_finite_differences
 
     def __calculate_newton_formula(self):
+        x = Symbol('x')
         q = Symbol('q')
         current_q_expression = q
         factorial_value = 1
-        self.__newton_formula = self._nodes[0] ** 2 + log(self._nodes[0])
+        self.__newton_formula = self._function.subs(x, self._nodes[0])
         for one_order in self.__table_of_finite_differences:
             self.__newton_formula = self.__newton_formula + (current_q_expression * one_order[0]) / factorial(
                 factorial_value)
@@ -63,7 +65,7 @@ class NFIF(BaseFunctionHandler):
 
     def calculate_absolute_error(self):
         x = Symbol('x')
-        function_for_calculating = self.__polynom - x ** 2 - log(x)
+        function_for_calculating = self.__polynom - self._function
         absolute_error = 0
         for value in self._nodes:
             ptr_value = abs(function_for_calculating.subs(x, value))
@@ -74,10 +76,9 @@ class NFIF(BaseFunctionHandler):
     def calculate_relative_error(self):
         x = Symbol('x')
         absolute_error = self.calculate_absolute_error()
-        function = x ** 2 + log(x)
         norm_of_function = 0
         for value in self._nodes:
-            ptr_value = abs(function.subs(x, value))
+            ptr_value = abs(self._function.subs(x, value))
             if ptr_value > norm_of_function:
                 norm_of_function = ptr_value
         relative_error = absolute_error / norm_of_function
@@ -85,8 +86,7 @@ class NFIF(BaseFunctionHandler):
 
     def __compute_the_remainder_estimate(self):
         x = Symbol('x')
-        function_for_norm = (x ** 2 + log(x))
-        differencial_of_function = diff(function_for_norm, x, self._n + 1)
+        differencial_of_function = diff(self._function, x, self._n + 1)
         self.__remainder_estimate = differencial_of_function / factorial(self._n + 1)
         for value in self._values_of_function:
             self.__remainder_estimate = self.__remainder_estimate * (x - value)

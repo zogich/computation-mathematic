@@ -2,32 +2,33 @@ from stuff.LIP import LIP
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+from sympy import ln, Symbol
 
 
 def execute_first_lab():
+    x = Symbol('x')
     clust_data = np.random.random((10, 3))
-    print(clust_data)
 
     n_values = []
     absolute_error_values = []
     relative_error_values = []
     remainder_estimate_values = []
 
-    main_polynom = LIP(3, 0.4, 0.9)
+    main_polynom = LIP(3, 0.4, 0.9, ln(x) + x**2)
 
     n_values.append(3)
     absolute_error_values.append(main_polynom.calculate_absolute_error())
     relative_error_values.append(main_polynom.calculate_relative_error())
     remainder_estimate_values.append(main_polynom.compute_the_remainder_estimate())
 
-    main_polynom = LIP(5, 0.4, 0.9)
+    main_polynom = LIP(5, 0.4, 0.9, ln(x) + x**2)
     n_values.append(5)
     absolute_error_values.append(main_polynom.calculate_absolute_error())
     relative_error_values.append(main_polynom.calculate_relative_error())
     remainder_estimate_values.append(main_polynom.compute_the_remainder_estimate())
 
     for value in range(10, 101, 10):
-        main_polynom = LIP(value, 0.4, 0.9)
+        main_polynom = LIP(value, 0.4, 0.9, ln(x) + x**2)
         n_values.append(value)
         absolute_error_values.append(main_polynom.calculate_absolute_error())
         relative_error_values.append(main_polynom.calculate_relative_error())
