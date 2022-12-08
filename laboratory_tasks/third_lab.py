@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def execute_third_lab(function):
 
     x = Symbol('x')
-    t = TrapezoidalMethod(2, 0.4, 0.9, function)
+    t = MidBoxMethod(2, 0.4, 0.9, function)
 
     colldata1 = []
     colldata2 = []

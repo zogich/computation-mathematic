@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 from sympy import Symbol, Float, expand, log, diff, factorial
-
+from sympy.core import add
 from stuff.BaseFunctionHandler import BaseFunctionHandler
 
 
@@ -15,8 +15,8 @@ class LIP(BaseFunctionHandler):
     def __str__(self):
         return str(self.__polynom)
 
-    def __init__(self, n: int, begin_interval: float, end_interval: float):
-        super().__init__(n, begin_interval, end_interval)
+    def __init__(self, n: int, begin_interval: float, end_interval: float, function: add):
+        super().__init__(n, begin_interval, end_interval, function)
         self.__calculate_polynom()
         print(self._n)
 
@@ -28,7 +28,8 @@ class LIP(BaseFunctionHandler):
 
     def __calculate_polynom(self):
         for i in range(self._n):
-            ptr_term = Float(self._nodes[i] ** 2) + Float(math.log(self._nodes[i]))
+            x = Symbol('x')
+            ptr_term = self._function.subs(x, self._nodes[i])
             for j in range(self._n):
                 x = Symbol('x')
                 if j != i:
@@ -40,7 +41,7 @@ class LIP(BaseFunctionHandler):
 
     def calculate_absolute_error(self):
         x = Symbol('x')
-        function_for_calculating = self.__polynom - x ** 2 - log(x)
+        function_for_calculating = self.__polynom - self._function
         absolute_error = 0
         for value in self._nodes:
             ptr_value = abs(function_for_calculating.subs(x, value))
@@ -51,10 +52,9 @@ class LIP(BaseFunctionHandler):
     def calculate_relative_error(self):
         x = Symbol('x')
         absolute_error = self.calculate_absolute_error()
-        function = x ** 2 + log(x)
         norm_of_function = 0
         for value in self._nodes:
-            ptr_value = abs(function.subs(x, value))
+            ptr_value = abs(self._function.subs(x, value))
             if ptr_value > norm_of_function:
                 norm_of_function = ptr_value
         relative_error = absolute_error / norm_of_function
@@ -63,8 +63,7 @@ class LIP(BaseFunctionHandler):
     def compute_the_remainder_estimate(self):
         x = Symbol('x')
 
-        function_for_norm = (x ** 2 + log(x))
-        differencial_of_function = diff(function_for_norm, x, self._n + 1)
+        differencial_of_function = diff(self._function, x, self._n + 1)
         norm_of_function = 0
 
         for value in self._nodes:
@@ -77,9 +76,10 @@ class LIP(BaseFunctionHandler):
 
     def compute_the_remainder_estimate_way_two(self):
         x = Symbol('x')
-        function_for_norm = (x ** 2 + log(x))
-        differencial_of_function = diff(function_for_norm, x, self._n + 1)
+
+        differencial_of_function = diff(self._function, x, self._n + 1)
         self.__remainder_estimate = differencial_of_function / factorial(self._n + 1)
+
         for value in self._values_of_function:
             self.__remainder_estimate = self.__remainder_estimate * (x - value)
         self.__remainder_estimate = expand(self.__remainder_estimate)

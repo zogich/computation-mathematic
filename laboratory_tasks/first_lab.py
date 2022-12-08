@@ -14,6 +14,7 @@ def execute_first_lab():
     remainder_estimate_values = []
 
     main_polynom = LIP(3, 0.4, 0.9)
+
     n_values.append(3)
     absolute_error_values.append(main_polynom.calculate_absolute_error())
     relative_error_values.append(main_polynom.calculate_relative_error())
