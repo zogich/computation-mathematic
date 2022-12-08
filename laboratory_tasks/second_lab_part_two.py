@@ -3,10 +3,10 @@ from sympy import Symbol, log, diff
 from sympy.core import add
 
 
-def execute_second_lab_part_two(function: add):
+def execute_second_lab_part_two(begin_interval: float, end_interval: float, function: add):
     x = Symbol('x')
 
-    main_polynom = LIP(20, 0.4, 0.9, function)
+    main_polynom = LIP(20, begin_interval, end_interval, function)
     print(main_polynom)
     main_polynom.compute_the_remainder_estimate_way_two()
     main_polynom_differencial = diff(main_polynom.get_polynom(), x, 1)

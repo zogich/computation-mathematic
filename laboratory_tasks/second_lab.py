@@ -3,4 +3,4 @@ from sympy.core import add
 
 
 def execute_second_lab(function: add):
-    pass
+    main_polynom = NFIF()
