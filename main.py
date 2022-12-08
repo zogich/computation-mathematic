@@ -5,4 +5,4 @@ from laboratory_tasks.second_lab import execute_second_lab
 from sympy import Symbol, ln, log, sin
 
 x = Symbol('x')
-execute_second_lab(0.4, 0.9, ln(x)+x**2)
+execute_second_lab(0.4, 0.9, ln(x)+x**2, 0.52, 0.42, 0.87, 0.67)
