@@ -6,7 +6,7 @@ from sympy import ln, Symbol
 from sympy.core import add
 
 
-def execute_first_lab(begin_interval: float, end_interval: add, function: add):
+def execute_first_lab(begin_interval: float, end_interval: float, function: add):
     x = Symbol('x')
     clust_data = np.random.random((10, 3))
 

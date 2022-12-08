@@ -2,9 +2,10 @@ from stuff.NumberIntegration.NumberIntegration import LeftBoxMethod, RightBoxMet
     SimpsonFormula
 from sympy import Symbol
 import matplotlib.pyplot as plt
+from sympy.core import add
 
 
-def execute_third_lab(begin_interval: float, end_interval: float, function):
+def execute_third_lab(begin_interval: float, end_interval: float, function: add):
 
     x = Symbol('x')
     t = MidBoxMethod(2, begin_interval, end_interval, function)
