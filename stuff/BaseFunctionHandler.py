@@ -1,6 +1,6 @@
 from sympy import log
 from sympy.core import add
-from sympy import Symbol
+from sympy import Symbol, expand
 
 
 class BaseFunctionHandler:
@@ -16,6 +16,7 @@ class BaseFunctionHandler:
             raise TypeError
 
         x = Symbol('x')
+        self._values_of_function = []
         self._interval = []
         self._n = 0
         self._nodes = []
@@ -34,4 +35,4 @@ class BaseFunctionHandler:
         self._nodes.append(end_interval)
 
         for value in self._nodes:
-            self._values_of_function.append(self._function.subs(x, value))
+            self._values_of_function.append(expand(self._function.subs(x, value)))

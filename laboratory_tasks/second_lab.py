@@ -11,7 +11,7 @@ def execute_second_lab(begin_interval: float, end_interval: float, function: add
     colllabel = ['△'+str(i)+'y' for i in range(1, n)]
     for i in range(1, n):
         rawdata.append([])
-
+    print('ok')
     main_polynom = NFIF(n, begin_interval, end_interval, function)
     print('Вычисленный интерполяционный полином: ', main_polynom.get_polynom())
     print('Значение в точке ', p1, ': ', main_polynom.get_polynom().subs(x, p1))

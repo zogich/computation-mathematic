@@ -28,6 +28,7 @@ class NFIF(BaseFunctionHandler):
 
         one_order = []
         for j in range(self._n - 1):
+            print(self._values_of_function[j])
             one_order.append(self._values_of_function[j + 1] - self._values_of_function[j])
         self.__table_of_finite_differences.append(one_order)
 

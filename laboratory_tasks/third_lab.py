@@ -8,8 +8,7 @@ from sympy.core import add
 def execute_third_lab(begin_interval: float, end_interval: float, function: add):
 
     x = Symbol('x')
-    t = MidBoxMethod(2, begin_interval, end_interval, function)
-
+    t = LeftBoxMethod(2, begin_interval, end_interval, function)
     colldata1 = []
     colldata2 = []
     collabel1 = ("n", "I*", "I", "∆I", "δI", 'Rn')
@@ -17,45 +16,39 @@ def execute_third_lab(begin_interval: float, end_interval: float, function: add)
 
     colldata1.append([2, t.get_calculated_exact_integral(), t.get_value_of_method(), t.get_absolute_error(), t.get_relative_error(),
                       t.get_remainder_term()])
-
     count = 4
     while count < 2**16:
+        print(count)
         t.change_values(count, begin_interval, end_interval, function)
         colldata1.append([count, t.get_calculated_exact_integral(), t.get_value_of_method(), t.get_absolute_error(),
                           t.get_relative_error(), t.get_remainder_term()
                           ])
         count = count * 2
-
     l = LeftBoxMethod(10000, begin_interval, end_interval, function)
     colldata2.append([
         'Л. прямоугольников', l.get_calculated_exact_integral(), l.get_value_of_method(), l.get_absolute_error(),
         l.get_relative_error(), l.get_remainder_term()
     ])
-
     r = RightBoxMethod(10000, begin_interval, end_interval, function)
     colldata2.append([
         'П. прямоугольников', r.get_calculated_exact_integral(), r.get_value_of_method(), r.get_absolute_error(),
         r.get_relative_error(), r.get_remainder_term()
     ])
-
     m = MidBoxMethod(10000, begin_interval, end_interval, function)
     colldata2.append([
         'Ц. прямоугольников', m.get_calculated_exact_integral(), m.get_value_of_method(), m.get_absolute_error(),
         m.get_relative_error(), m.get_remainder_term()
     ])
-
     t.change_values(10000, begin_interval, end_interval, function)
     colldata2.append([
         'Трапеций', t.get_calculated_exact_integral(), t.get_value_of_method(), t.get_absolute_error(),
         t.get_relative_error(), t.get_remainder_term()
     ])
-
     s = SimpsonFormula(10000, begin_interval, end_interval, function)
     colldata2.append([
         'Симпсона', s.get_calculated_exact_integral(), s.get_value_of_method(), s.get_absolute_error(),
         s.get_relative_error(), s.get_remainder_term()
     ])
-
     fig, ax = plt.subplots(2, 1, figsize=(12, 12))
 
     [a.axis('off') for a in ax]
